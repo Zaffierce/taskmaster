@@ -4,19 +4,74 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".allactivity">
+    tools:context=".AllActivity">
 
-    <ImageView
-        android:id="@+id/shibaImage"
-        android:layout_width="400dp"
-        android:layout_height="404dp"
-        android:layout_marginTop="327dp"
-        android:src="@mipmap/ic_launcher"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <TextView
+        android:id="@+id/taskOneTextView"
+        android:layout_width="136dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="32dp"
+        android:text="Task 1"
+        android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.454"
+        app:layout_constraintHorizontal_bias="0.17"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.57"
-        app:srcCompat="@mipmap/shibacage_foreground" />
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/taskTwoTextView"
+        android:layout_width="136dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="80dp"
+        android:text="Task 2"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.17"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/taskOneButton" />
+
+    <TextView
+        android:id="@+id/taskThreeTextView"
+        android:layout_width="136dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="80dp"
+        android:text="Task 3"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.17"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/taskTwoButton" />
+
+    <Button
+        android:id="@+id/taskOneButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:onClick="onClickFirstTask"
+        android:text="View Task"
+        app:layout_constraintEnd_toEndOf="@+id/taskOneTextView"
+        app:layout_constraintStart_toStartOf="@+id/taskOneTextView"
+        app:layout_constraintTop_toBottomOf="@+id/taskOneTextView" />
+
+    <Button
+        android:id="@+id/taskTwoButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:onClick="onClickSecondTask"
+        android:text="View Task"
+        app:layout_constraintEnd_toEndOf="@+id/taskTwoTextView"
+        app:layout_constraintStart_toStartOf="@+id/taskTwoTextView"
+        app:layout_constraintTop_toBottomOf="@+id/taskTwoTextView" />
+
+    <Button
+        android:id="@+id/taskThreeButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:onClick="onClickThirdTask"
+        android:text="View Task"
+        app:layout_constraintEnd_toEndOf="@+id/taskThreeTextView"
+        app:layout_constraintStart_toStartOf="@+id/taskThreeTextView"
+        app:layout_constraintTop_toBottomOf="@+id/taskThreeTextView" />
 </androidx.constraintlayout.widget.ConstraintLayout>
