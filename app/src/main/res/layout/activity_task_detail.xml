@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".TaskDetailActivity">
+
+    <TextView
+        android:id="@+id/myTaskTextView"
+        android:layout_width="382dp"
+        android:layout_height="462dp"
+        android:layout_marginTop="124dp"
+        android:text="Herp derpsum sherper herpy derpus jerpy berps cerp terpus. Derpy merpus pee derpler berps! Perp sherper herp terp herpy derpler. Sherper merp herpler herp pee. Derpler terpus, mer re berp der perp se? Ze ter derps tee! Herpsum derp sherper ler merp derperker jerpy derpler herderder zerpus. Derp sherper perper tee. Derperker zerpus ner cerp terpus herpy sherpus sherp. Perp derp pee serp herp zerpus herpem herderder derpler berp! Merpus derpy herpler sherp derps perper derperker derp dee der. Merpus der derps, derpus herpderpsmer! Derp merp er sherpus dee perp herpy derpsum perper pee. Herpler derpsum me sherlamer ler derpler derpy. Cerp de perper derpy. Le herderder herpler re ter. Serp ze derperker re. Terp berps terpus ter, er perp derpsum."
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.551"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/taskDetailHeaderTextBox" />
+
+    <TextView
+        android:id="@+id/taskDetailHeaderTextBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        android:text="Task Details"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.065"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>
