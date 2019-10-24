@@ -13,9 +13,17 @@ public class TaskDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_detail);
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        String task = prefs.getString("task", "null");
-        TextView textView = findViewById(R.id.taskDetailHeaderTextBox);
-        textView.setText(task);
+
+        String taskTitleFromExtras = getIntent().getStringExtra("title");
+        TextView titleTextBox = findViewById(R.id.taskDetail_TaskTitleBox);
+        titleTextBox.setText(taskTitleFromExtras);
+
+        String taskBodyFromExtras = getIntent().getStringExtra("body");
+        TextView bodyTextBox = findViewById(R.id.taskDetail_TaskBodyBox);
+        bodyTextBox.setText(taskBodyFromExtras);
+
+        String taskStateFromExtras = getIntent().getStringExtra("state");
+        TextView stateTextBox = findViewById(R.id.taskDetail_TaskStateBox);
+        stateTextBox.setText(taskStateFromExtras);
     }
 }
