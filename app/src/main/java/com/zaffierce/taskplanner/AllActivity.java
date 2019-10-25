@@ -3,6 +3,7 @@ package com.zaffierce.taskplanner;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Room;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,15 +15,17 @@ public class AllActivity extends AppCompatActivity implements TasksAdapter.OnTas
 
     private List<Task> tasks;
 
+    public AppDatabase db;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_allactivity);
+        db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "tasks")
+                .allowMainThreadQueries().build();
         this.tasks = new LinkedList<>();
-        tasks.add(new Task("Finish Lab", "Finish this super complicated lab.", TaskState.NEW));
-        tasks.add(new Task("Drink beer", "After completion of lab, enjoy some nice tasty beer.", TaskState.NEW));
-        tasks.add(new Task("Contemplate Life", "After completion of beer, contemplate life for a litte while.", TaskState.NEW));
-
+//        db.taskDao().deleteAllTasks(); // Uncomment to clear DB
+        this.tasks.addAll(db.taskDao().getAll());
         RecyclerView recyclerView = findViewById(R.id.recycler_AllTasks);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(new TasksAdapter(this.tasks, this));
@@ -34,7 +37,6 @@ public class AllActivity extends AppCompatActivity implements TasksAdapter.OnTas
         intent.putExtra("title", task.getTitle());
         intent.putExtra("body", task.getBody());
         intent.putExtra("state", task.getTaskState());
-
         AllActivity.this.startActivity(intent);
     }
 }
