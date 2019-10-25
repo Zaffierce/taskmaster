@@ -8,9 +8,8 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_AllTasks"
-        android:layout_width="321dp"
-        android:layout_height="507dp"
-        android:layout_marginStart="16dp"
+        android:layout_width="361dp"
+        android:layout_height="531dp"
         android:layout_marginTop="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
