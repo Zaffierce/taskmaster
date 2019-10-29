@@ -46,8 +46,9 @@ public class AddTaskActivity extends AppCompatActivity {
             Toast toast = Toast.makeText(this, "Toast successfully saved", Toast.LENGTH_LONG);
             toast.show();
 
-            Intent intent = new Intent(this, MainActivity.class);
-            AddTaskActivity.this.startActivity(intent);
+//            Intent intent = new Intent(this, MainActivity.class);
+//            AddTaskActivity.this.startActivity(intent);
+            AddTaskActivity.this.finish();
         });
 
 

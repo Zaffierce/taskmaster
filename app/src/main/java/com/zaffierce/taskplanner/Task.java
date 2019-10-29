@@ -4,6 +4,8 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
+import java.util.List;
+
 @Entity
 public class Task {
 
@@ -36,6 +38,7 @@ public class Task {
 
     private String title;
     private String body;
+//    List<Task> tasks;
 //    private TaskState taskState;
 
     public Task(String title, String body, TaskState taskState){
