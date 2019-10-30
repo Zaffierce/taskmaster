@@ -4,6 +4,9 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
+import com.amazonaws.amplify.generated.graphql.CreateTaskMutation;
+import com.amazonaws.amplify.generated.graphql.ListTasksQuery;
+
 import java.util.List;
 
 @Entity
@@ -46,6 +49,17 @@ public class Task {
         this.body = body;
         this.taskState = taskState;
     }
+
+    public Task(CreateTaskMutation.CreateTask task) {
+        this.title = task.title();
+        this.body = task.body();
+//        this.taskState = ;
+    }
+
+    public Task(ListTasksQuery.Item task){
+        this.title = task.title();
+        this.body = task.body();
+    }
     public long getId() { return id; }
 
     public void setId(long id) { this.id = id; }
@@ -57,6 +71,6 @@ public class Task {
     public TaskState getTaskState() { return taskState; }
 
     public String toString() {
-        return String.format("Task Title is is: %s -- Task body is:  %s -- State is: %s", this.title, this.body, this.taskState);
+        return String.format("Task Title is: %s -- Task body is:  %s -- State is: %s", this.title, this.body, this.taskState);
     }
 }
