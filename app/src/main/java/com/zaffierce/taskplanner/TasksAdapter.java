@@ -8,6 +8,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.Arrays;
 import java.util.List;
 
 class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskViewHolder> {
@@ -32,6 +33,12 @@ class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskViewHolder> {
             this.taskStatus = null;
             //TODO: Implement taskStatus somewhere
         }
+    }
+
+    public void addNewTasks(Task[] newTasks) {
+        this.taskList.addAll(Arrays.asList(newTasks));
+        this.notifyDataSetChanged();
+
     }
 
     @NonNull

@@ -16,6 +16,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -48,9 +49,9 @@ public class OkHTTPResponse implements Callback {
         Gson gson = new Gson();
 
         Task[] taskObject = gson.fromJson(responseBody, Task[].class);
-        for(int i = 0; i < taskObject.length; i++) {
-            System.out.println(taskObject);
-        }
+        this.tasks = new LinkedList<>();
+        this.tasks.addAll(Arrays.asList(taskObject));
+        Log.i(TAG1, tasks.toString());
 
         Handler handler = new Handler(Looper.getMainLooper()) {
             @Override
@@ -58,13 +59,5 @@ public class OkHTTPResponse implements Callback {
                 allActivityInstance.renderResponseData((String)inputMessage.obj);
             }
         };
-//
-//        Message completeMessage = handler.obtainMessage(0, responseBody);
-//        completeMessage.sendToTarget();
-//        Log.i(TAG1, String.valueOf(completeMessage));
-
-
-
-//        System.out.println(responseBody);
     }
 }
