@@ -116,7 +116,7 @@ public class AllActivity extends AppCompatActivity implements TasksAdapter.OnTas
                 @Override
                 public void handleMessage(Message message) {
                     List<ListTasksQuery.Item> tasksFromMagicLand = response.data().listTasks().items();
-//                    tasks.clear();
+                    tasks.clear();
                     for (ListTasksQuery.Item task : tasksFromMagicLand) {
                         tasks.add(new Task(task));
                     }

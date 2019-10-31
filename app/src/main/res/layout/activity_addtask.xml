@@ -11,11 +11,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="61dp"
-        android:layout_marginTop="67dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="223dp"
         android:text="Add Task"
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -73,13 +74,11 @@
         android:id="@+id/addTaskButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="57dp"
-        android:layout_marginTop="86dp"
-        android:layout_marginEnd="264dp"
+        android:layout_marginTop="72dp"
         android:text="add task"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/taskDescriptionInputBox" />
+        app:layout_constraintTop_toBottomOf="@+id/TeamTextBox" />
 
     <TextView
         android:id="@+id/totalTasksTextBox"
@@ -105,6 +104,65 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/totalTasksTextBox"
-        app:layout_constraintTop_toBottomOf="@+id/totalTasksTextBox"
-        app:layout_constraintVertical_bias="0.421" />
+        app:layout_constraintTop_toBottomOf="@+id/addTaskButton"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/TeamTextBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="23dp"
+        android:text="Choose a Team"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/taskDescriptionInputBox" />
+
+    <RadioGroup
+        android:layout_width="397dp"
+        android:layout_height="65dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="12dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/addTaskButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/TeamTextBox">
+
+        <RadioButton
+            android:id="@+id/Team1radioButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="12dp"
+            android:onClick="onRadioButtonClicked"
+            android:text="Team Michelle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/TeamTextBox" />
+
+        <RadioButton
+            android:id="@+id/Team2radioButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:onClick="onRadioButtonClicked"
+            android:text="Team Nicholas"
+            app:layout_constraintEnd_toStartOf="@+id/Team3radioButton"
+            app:layout_constraintHorizontal_bias="0.489"
+            app:layout_constraintStart_toEndOf="@+id/Team1radioButton"
+            app:layout_constraintTop_toBottomOf="@+id/TeamTextBox" />
+
+        <RadioButton
+            android:id="@+id/Team3radioButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="8dp"
+            android:onClick="onRadioButtonClicked"
+            android:text="Team Jeff"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/TeamTextBox" />
+    </RadioGroup>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
