@@ -11,9 +11,11 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
+import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.Toast;
 
 import com.amazonaws.amplify.generated.graphql.CreateTaskMutation;
@@ -38,7 +40,7 @@ public class AddTaskActivity extends AppCompatActivity {
 
     AWSAppSyncClient awsAppSyncClient;
 
-    RecyclerView recyclerView;
+    public String teamName = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +56,13 @@ public class AddTaskActivity extends AppCompatActivity {
 
 
         addTaskButton.setOnClickListener((event) -> {
+
+//            String teamName = null;
+
+//            public void onRadioButtonClicked(View view) {
+//                boolean checked = ((RadioButton) view).isChecked();
+//
+//            }
             String enteredTaskTitle;
             String enteredTaskBody;
 
@@ -75,21 +84,32 @@ public class AddTaskActivity extends AppCompatActivity {
 
             runTaskMutation(enteredTaskTitle, enteredTaskBody);
 
-
-
 //            Intent intent = new Intent(this, MainActivity.class);
 //            AddTaskActivity.this.startActivity(intent);
 
 
-
-            Toast toast = Toast.makeText(this, "Toast successfully saved", Toast.LENGTH_LONG);
+            Toast toast = Toast.makeText(this, "Task successfully saved", Toast.LENGTH_LONG);
             toast.show();
             AddTaskActivity.this.finish();
         });
     }
+
+    public void onRadioButtonClicked(View view) {
+        RadioButton teamOne, teamTwo, teamThree;
+        teamOne = findViewById(R.id.Team1radioButton);
+        teamTwo = findViewById(R.id.Team2radioButton);
+        teamThree = findViewById(R.id.Team3radioButton);
+
+        if(teamOne.isChecked()) { teamName = "teamOne"; }
+        else if (teamTwo.isChecked()) { teamName = "teamTwo"; }
+        else if (teamThree.isChecked()) { teamName = "teamThree"; }
+
+    }
+
     public void runTaskMutation(String title, String body){
         System.out.println(title + '\n'+ body);
         CreateTaskInput createTaskInput = CreateTaskInput.builder()
+//                .taskTeamId(response)
                 .title(title)
                 .body(body)
                 .taskState(TaskState.NEW)
@@ -102,14 +122,6 @@ public class AddTaskActivity extends AppCompatActivity {
         @Override
         public void onResponse(@Nonnull Response<CreateTaskMutation.Data> response) {
             Log.i("GraphQLResponse", "A new task has been added.");
-//            Handler handler = new Handler(Looper.getMainLooper()) {
-//
-//                @Override
-//                public void handleMessage(Message inputmessage) {
-//                    CreateTaskMutation.CreateTask task = response.data().createTask();
-//
-//                }
-//            };
         }
 
         @Override
