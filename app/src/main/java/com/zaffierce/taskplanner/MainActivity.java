@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
         Button allTaskButton = findViewById(R.id.allTasksButton);
         allTaskButton.setOnClickListener((event) -> {
-            startActivity(new Intent(MainActivity.this, AllActivity.class));
+            startActivity(new Intent(MainActivity.this, AllTasksActivity.class));
         });
 
         Button settingsButton = findViewById(R.id.settingsButton);
@@ -43,8 +43,8 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void onPicholasCageClick(View view) {
-        startActivity(new Intent(MainActivity.this, CollectionsActivity.class));
+    public void onPicolasCageClick(View view) {
+        startActivity(new Intent(MainActivity.this, PicolasActivity.class));
     }
 
 }
