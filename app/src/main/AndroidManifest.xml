@@ -17,13 +17,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".CollectionsActivity"></activity>
+        <activity android:name=".PicolasActivity"></activity>
 
         <service android:name="org.eclipse.paho.android.service.MqttService" />
 
         <activity android:name=".SettingsActivity" />
         <activity android:name=".TaskDetailActivity" />
-        <activity android:name=".AllActivity" />
+        <activity android:name=".AllTasksActivity" />
         <activity android:name=".AddTaskActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>

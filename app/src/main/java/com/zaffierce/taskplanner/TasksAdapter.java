@@ -29,7 +29,7 @@ class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskViewHolder> {
         public TaskViewHolder(@NonNull View itemView) {
             super(itemView);
             this.taskTitle = itemView.findViewById(R.id.fragment_taskTitle);
-            this.taskBody = itemView.findViewById(R.id.fragment_taskTitle);
+//            this.taskBody = itemView.findViewById(R.id.fragment_taskTitle);
             this.taskStatus = null;
             //TODO: Implement taskStatus somewhere
         }
@@ -56,7 +56,7 @@ class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskViewHolder> {
         Task taskAtPosition =this.taskList.get(position);
         holder.task = taskAtPosition;
         holder.taskTitle.setText(taskAtPosition.getTitle());
-        holder.taskBody.setText(taskAtPosition.getBody());
+//        holder.taskBody.setText(taskAtPosition.getBody());
     }
 
     @Override
