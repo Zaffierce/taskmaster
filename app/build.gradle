@@ -26,6 +26,8 @@ android {
 apply plugin: 'com.amazonaws.appsync'
 
 dependencies {
+
+    implementation 'com.amazonaws:aws-android-sdk-s3:2.15.+'
     implementation 'com.amazonaws:aws-android-sdk-mobile-client:2.15.+'
 
 //For the drop-in UI also:
