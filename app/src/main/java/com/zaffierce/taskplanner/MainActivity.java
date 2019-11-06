@@ -83,7 +83,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onSignInClick(View view) {
-
         AWSMobileClient.getInstance().showSignIn(MainActivity.this,
                 SignInUIOptions.builder()
                         .backgroundColor(1)
