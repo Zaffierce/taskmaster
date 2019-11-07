@@ -4,6 +4,7 @@ type Task @model {
   body: String
   taskState: TaskState!
   team: Team @connection(name:"TeamGroup")
+  photo: String
 }
 
 enum TaskState {
