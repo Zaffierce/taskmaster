@@ -1,6 +1,7 @@
 package com.zaffierce.taskplanner;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
@@ -13,6 +14,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.provider.MediaStore;
 import android.provider.OpenableColumns;
 import android.util.Log;
 import android.view.View;
@@ -36,6 +38,7 @@ import com.amazonaws.mobileconnectors.appsync.AWSAppSyncClient;
 import com.amazonaws.mobileconnectors.appsync.fetcher.AppSyncResponseFetchers;
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferListener;
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferObserver;
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferService;
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferState;
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
 import com.amazonaws.services.s3.AmazonS3Client;
@@ -51,11 +54,14 @@ import java.io.InputStreamReader;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 import javax.annotation.Nonnull;
 
 import type.CreateTaskInput;
 import type.TaskState;
+
+import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 
 
 public class AddTaskActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
@@ -68,6 +74,8 @@ public class AddTaskActivity extends AppCompatActivity implements AdapterView.On
 
     public String teamName = null;
 
+    public String photoKey = null;
+
     final List<ListTeamsQuery.Item> teams = new LinkedList<>();
 
 
@@ -75,6 +83,11 @@ public class AddTaskActivity extends AppCompatActivity implements AdapterView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_addtask);
+
+        getApplicationContext().startService(new Intent(getApplicationContext(), TransferService.class));
+
+        String[] permissions = {READ_EXTERNAL_STORAGE};
+        ActivityCompat.requestPermissions(this, permissions, 1);
 
         Button addTaskButton = findViewById(R.id.addTaskButton);
 
@@ -147,13 +160,15 @@ public class AddTaskActivity extends AppCompatActivity implements AdapterView.On
     }
 
     public void runTaskMutation(String title, String body){
-        System.out.println(title + '\n'+ body);
+//        System.out.println(title + '\n'+ body);
         CreateTaskInput createTaskInput = CreateTaskInput.builder()
                 .taskTeamId(teamName)
                 .title(title)
                 .body(body)
                 .taskState(TaskState.NEW)
+                .photo(photoKey)
                 .build();
+        Log.i("veach", "photoKey********" + photoKey);
         awsAppSyncClient.mutate(CreateTaskMutation.builder().input(createTaskInput).build())
                 .enqueue(addTaskCallback);
     }
@@ -181,110 +196,59 @@ public class AddTaskActivity extends AppCompatActivity implements AdapterView.On
 
     }
 
-    public void onUploadClick(View view) {
-        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-        intent.setType("*/*");
+    public void pickFile (View v) {
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(intent, READ_REQUEST_CODE);
-
     }
-
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent resultData) {
+    public void onActivityResult(int requestCode, int resultCode,
+                                 Intent resultData) {
         super.onActivityResult(requestCode, resultCode, resultData);
         if (requestCode == READ_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             Uri uri = null;
             if (resultData != null) {
                 uri = resultData.getData();
-                String uriString = uri.toString();
-//                File myFile = new File(uriString);
-                File myFile = new File(getApplicationContext().getFilesDir(), "/"+uriString);
-                String path = myFile.getAbsolutePath();
-
-                Cursor cursor = getContentResolver().query(uri, null, null, null, null);
-                int nameIndex = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
-                int size = cursor.getColumnIndex(OpenableColumns.SIZE);
+//                    Log.i("veach", "Uri: " + uri.toString());
+                Uri selectedImage = uri;
+                String[] filePathColumn = {MediaStore.Images.Media.DATA};
+                Cursor cursor = getContentResolver().query(selectedImage,
+                        filePathColumn, null, null, null);
+//                    Log.i("veach", "cursor: " + cursor);
                 cursor.moveToFirst();
-
-                String nameStr = cursor.getString(nameIndex);
-
-                Log.i("veach", nameStr);
-//                String sizeStr = cursor.getString(size);
-
-
-//                Log.i("veach", cursor.getString(nameIndex));
-
-//                final File file = new File(uri.getPath());
-//                Log.i("veach", file.toString());
-
-
-
-
-
-//                Log.i("veach", "File info? " + uriString + " info" + myFile + " " + path);
-//
-//
-//                Log.i("veach", "Uri: " + uri.toString());
-//                Log.i("veach", "URI Path: " + uri.getPath());
-                Uri finalUri = uri;
-                AWSMobileClient.getInstance().initialize(getApplicationContext(), new Callback<UserStateDetails>() {
+                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                String picturePath = cursor.getString(columnIndex);
+                cursor.close();
+                TransferUtility transferUtility =
+                        TransferUtility.builder()
+                                .context(getApplicationContext())
+                                .awsConfiguration(AWSMobileClient.getInstance().getConfiguration())
+                                .s3Client(new AmazonS3Client(AWSMobileClient.getInstance()))
+                                .build();
+                TransferObserver uploadObserver =
+                        transferUtility.upload(
+                                "public/"+ UUID.randomUUID().toString(),
+                                new File(picturePath));
+                uploadObserver.setTransferListener(new TransferListener() {
                     @Override
-                    public void onResult(UserStateDetails result) {
-                        Log.i("veach", "file successfully uploaded");
-                        uploadWithTransferUtility(nameStr, myFile);
+                    public void onStateChanged(int id, TransferState state) {
+                        if (TransferState.COMPLETED == state) {
+                            photoKey = uploadObserver.getKey();
+//                            Log.i("veachKEY", uploadObserver.getKey());
+//                            Log.i("veachKEY", uploadObserver.getAbsoluteFilePath());
+                        }
                     }
-
                     @Override
-                    public void onError(Exception e) {
-                        Log.e("veach", e.getMessage());
+                    public void onProgressChanged(int id, long bytesCurrent, long bytesTotal) {
+                        float percentDonef = ((float) bytesCurrent / (float) bytesTotal) * 100;
+                        int percentDone = (int)percentDonef;
+                        Log.d("veach", "ID:" + id + " bytesCurrent: " + bytesCurrent
+                                + " bytesTotal: " + bytesTotal + " " + percentDone + "%");
+                    }
+                    @Override
+                    public void onError(int id, Exception ex) {
                     }
                 });
             }
-
-        }
-    }
-
-    public void uploadWithTransferUtility(String str, File ourFile) {
-        TransferUtility transferUtility = TransferUtility.builder()
-                .context(getApplicationContext())
-                .awsConfiguration(AWSMobileClient.getInstance().getConfiguration())
-                .s3Client(new AmazonS3Client(AWSMobileClient.getInstance()))
-                .build();
-
-        Log.i("veach", "into transferUtility");
-//        Log.i("veach", ourFile.getName());
-//        Log.i("veach", ourFile.toString());
-
-        File file = new File(getApplicationContext().getFilesDir(), str);
-        Log.i("veach", file.toString());
-
-
-
-        TransferObserver uploadObserver = transferUtility.upload("public/"+str, file);
-//        TransferObserver uploadObserver = transferUtility.upload("public/"+str, new File(getApplicationContext().getFilesDir(), str));
-//        TransferObserver uploadObserver = transferUtility.upload("public/test.png", new File(getApplicationContext().getFilesDir(), "test.png"));
-//
-        uploadObserver.setTransferListener(new TransferListener() {
-            @Override
-            public void onStateChanged(int id, TransferState state) {
-                if (TransferState.COMPLETED == state) {
-                    Log.i("veach", "File uploaded?");
-                }
-            }
-
-            @Override
-            public void onProgressChanged(int id, long bytesCurrent, long bytesTotal) {
-
-            }
-
-            @Override
-            public void onError(int id, Exception ex) {
-                Log.e("veach", ex.getMessage());
-
-            }
-        });
-        if (TransferState.COMPLETED == uploadObserver.getState()) {
-            Log.i("veach", "File uploaded.......?");
         }
     }
 }

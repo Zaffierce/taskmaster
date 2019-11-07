@@ -12,6 +12,7 @@ subscription OnCreateTask {
         nextToken
       }
     }
+    photo
   }
 }
 subscription OnUpdateTask {
@@ -27,6 +28,7 @@ subscription OnUpdateTask {
         nextToken
       }
     }
+    photo
   }
 }
 subscription OnDeleteTask {
@@ -42,6 +44,7 @@ subscription OnDeleteTask {
         nextToken
       }
     }
+    photo
   }
 }
 subscription OnCreateTeam {
@@ -54,6 +57,7 @@ subscription OnCreateTeam {
         title
         body
         taskState
+        photo
       }
       nextToken
     }
@@ -69,6 +73,7 @@ subscription OnUpdateTeam {
         title
         body
         taskState
+        photo
       }
       nextToken
     }
@@ -84,6 +89,7 @@ subscription OnDeleteTeam {
         title
         body
         taskState
+        photo
       }
       nextToken
     }
