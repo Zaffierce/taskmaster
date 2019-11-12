@@ -10,6 +10,8 @@
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
+
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -22,6 +24,15 @@
 
         <service android:name="org.eclipse.paho.android.service.MqttService" />
         <service android:name="com.amazonaws.mobileconnectors.s3.transferutility.TransferService" android:enabled="true" />
+        <service
+            android:name=".PushListenerService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+
+
+
 
         <activity android:name=".SettingsActivity" />
         <activity android:name=".TaskDetailActivity" />
@@ -33,7 +44,16 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+
         </activity>
+        <receiver
+            android:name="com.amazonaws.mobileconnectors.pinpoint.targeting.notification.PinpointNotificationReceiver" android:exported="false" >
+        <intent-filter>
+            <action android:name="com.amazonaws.intent.fcm.NOTIFICATION_OPEN" />
+        </intent-filter>
+        </receiver>
     </application>
+
 
 </manifest>
