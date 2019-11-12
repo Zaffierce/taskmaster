@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "831844195745",
+    "firebase_url": "https://taskplanner-veach.firebaseio.com",
+    "project_id": "taskplanner-veach",
+    "storage_bucket": "taskplanner-veach.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:831844195745:android:675b1427e29b708d537fe0",
+        "android_client_info": {
+          "package_name": "com.zaffierce.taskplanner"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "831844195745-c3lovulu8p57b7vhuu28l311o891tcrt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBnWkds2etzZwNhXBK7oeJ5h3adMGIM60U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "831844195745-c3lovulu8p57b7vhuu28l311o891tcrt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

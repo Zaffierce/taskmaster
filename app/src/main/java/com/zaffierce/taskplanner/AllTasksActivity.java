@@ -132,6 +132,7 @@ public class AllTasksActivity extends AppCompatActivity implements TasksAdapter.
         intent.putExtra("title", task.getTitle());
         intent.putExtra("body", task.getBody());
         intent.putExtra("state", task.getTaskState());
+//        intent.putExtra("imageKey", task.)
         AllTasksActivity.this.startActivity(intent);
     }
 }
