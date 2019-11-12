@@ -4,17 +4,12 @@
 This Android Application was created to assist users with creating and tracking tasks.
 
 ### How to run?
-Launch using Android Studio.  Additionally, this requires an AWS Amplify account to be created.
-* To setup the AWS Amplify database, run
-    * `amplify init`, using default options
-    * `amplify push`, using default options
+Launch using Android Studio.
 
 ### Features
-- Create a task and link it to a specific team
-- View tasks from AWS Database
-- Create an account
-- Login and Logout of account
-- Username is displayed upon login
+- A user is able to set their username
+- Create a task
+- View personal tasks
 
 ### Screenshots
 - Home page
