@@ -2,11 +2,15 @@ package com.zaffierce.taskplanner;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.preference.PreferenceManager;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -28,7 +32,10 @@ import com.amazonaws.mobile.client.AWSStartupHandler;
 import com.amazonaws.mobile.client.AWSStartupResult;
 import com.amazonaws.mobileconnectors.pinpoint.PinpointConfiguration;
 import com.amazonaws.mobileconnectors.pinpoint.PinpointManager;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
@@ -45,9 +52,19 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
+
+import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
+import static android.Manifest.permission.ACCESS_FINE_LOCATION;
+import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
+
 public class MainActivity extends AppCompatActivity {
 
     private static PinpointManager pinpointManager;
+    private FusedLocationProviderClient fusedLocationClient;
+
 
     public static PinpointManager getPinpointManager(final Context applicationContext) {
         if (pinpointManager == null) {
@@ -103,8 +120,42 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        ActivityCompat.requestPermissions(this, new String[]{ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION}, 10);
 
         getPinpointManager(this);
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+
+        Button locButton = findViewById(R.id.location_button);
+        locButton.setOnClickListener(event -> {
+            fusedLocationClient.getLastLocation().addOnSuccessListener(MainActivity.this, new OnSuccessListener<Location>() {
+
+                @Override
+                public void onSuccess(final Location location) {
+
+                    new Thread(() -> {
+                        Log.i("veach.location", location.toString());
+                        Geocoder geocoder = new Geocoder(MainActivity.this, Locale.getDefault());
+                        try {
+                            List<Address> addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+                            Log.i("veach.location", addresses.toString());
+                            String address = addresses.get(0).getAddressLine(0);
+                            Log.i("veach.location", address);
+                            ;
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }).run();
+
+
+                }
+
+            });
+        });
+
+
+
 
         AWSMobileClient.getInstance().initialize(getApplicationContext(), new Callback<UserStateDetails>() {
 
@@ -123,7 +174,6 @@ public class MainActivity extends AppCompatActivity {
 //        {
 //        }
 
-        setContentView(R.layout.activity_main);
 
         Button addTaskButton = findViewById(R.id.addTaskButton);
         addTaskButton.setOnClickListener((event) -> {

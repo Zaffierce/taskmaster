@@ -6,7 +6,7 @@ android {
     defaultConfig {
         applicationId "com.zaffierce.taskplanner"
         minSdkVersion 23
-        targetSdkVersion 29
+        targetSdkVersion 28
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -26,7 +26,6 @@ apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.amazonaws.appsync'
 
 dependencies {
-
 
     implementation 'com.amazonaws:aws-android-sdk-s3:2.15.+'
     implementation 'com.amazonaws:aws-android-sdk-mobile-client:2.15.+'
@@ -64,6 +63,7 @@ dependencies {
     androidTestImplementation 'androidx.test:rules:1.1.0'
 
     implementation 'com.squareup.picasso:picasso:2.71828'
+    implementation 'com.google.android.gms:play-services-location:15.0.1'
 
 }
 
