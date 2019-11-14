@@ -124,35 +124,37 @@ public class MainActivity extends AppCompatActivity {
 
         ActivityCompat.requestPermissions(this, new String[]{ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION}, 10);
 
-        getPinpointManager(this);
+//        getPinpointManager(this);
+        final PinpointManager pinpointManager = getPinpointManager(getApplicationContext());
+        pinpointManager.getSessionClient().startSession();
+
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
         Button locButton = findViewById(R.id.location_button);
-        locButton.setOnClickListener(event -> {
-            fusedLocationClient.getLastLocation().addOnSuccessListener(MainActivity.this, new OnSuccessListener<Location>() {
+        locButton.setOnClickListener(event -> fusedLocationClient.getLastLocation().addOnSuccessListener(MainActivity.this, new OnSuccessListener<Location>() {
 
-                @Override
-                public void onSuccess(final Location location) {
+            @Override
+            public void onSuccess(final Location location) {
 
-                    new Thread(() -> {
-                        Log.i("veach.location", location.toString());
-                        Geocoder geocoder = new Geocoder(MainActivity.this, Locale.getDefault());
-                        try {
-                            List<Address> addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
-                            Log.i("veach.location", addresses.toString());
-                            String address = addresses.get(0).getAddressLine(0);
-                            Log.i("veach.location", address);
-                            ;
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }).run();
+                new Thread(() -> {
+                    if (location != null) {
+//                        if (location == null) return "";
+                    Log.i("veach.location", location.toString());
+                    Geocoder geocoder = new Geocoder(MainActivity.this, Locale.getDefault());
+                    try {
+                        List<Address> addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+                        Log.i("veach.location", addresses.toString());
+//                            String address = addresses.get(0).getAddressLine(0);
+//                            Log.i("veach.location", address);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }}
+                }).run();
 
 
-                }
+            }
 
-            });
-        });
+        }));
 
 
 
@@ -190,6 +192,16 @@ public class MainActivity extends AppCompatActivity {
             startActivity(new Intent(MainActivity.this, SettingsActivity.class));
         });
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        pinpointManager.getSessionClient().stopSession();
+        pinpointManager.getAnalyticsClient().submitEvents();
+    }
+
+
 
     public void onPicolasCageClick(View view) {
         startActivity(new Intent(MainActivity.this, PicolasActivity.class));

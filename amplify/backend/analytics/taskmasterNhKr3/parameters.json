@@ -1,0 +1,21 @@
+{
+    "appName": "taskmasterNhKr3",
+    "roleName": "pinpointLambdaRole76cae8a4",
+    "cloudWatchPolicyName": "cloudWatchPolicy76cae8a4",
+    "pinpointPolicyName": "pinpointPolicy76cae8a4",
+    "authPolicyName": "pinpoint_amplify_76cae8a4",
+    "unauthPolicyName": "pinpoint_amplify_76cae8a4",
+    "authRoleName": {
+        "Ref": "AuthRoleName"
+    },
+    "unauthRoleName": {
+        "Ref": "UnauthRoleName"
+    },
+    "authRoleArn": {
+        "Fn::GetAtt": [
+            "AuthRole",
+            "Arn"
+        ]
+    },
+    "appId": "b640cd93f0324ebda2f3adba910b4f0d"
+}
