@@ -199,6 +199,7 @@ public class MainActivity extends AppCompatActivity {
 
         pinpointManager.getSessionClient().stopSession();
         pinpointManager.getAnalyticsClient().submitEvents();
+
     }
 
 
